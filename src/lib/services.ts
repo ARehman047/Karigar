@@ -655,6 +655,7 @@ export const adminApi = {
   deleteUser: (userId: string) => api.del(`/admin/users/${userId}`),
   cancelSession: (sessionId: string) => api.put(`/admin/sessions/${sessionId}/cancel`),
   deleteSession: (sessionId: string) => api.del(`/admin/sessions/${sessionId}`),
+  deletePayment: (paymentId: string) => api.del(`/admin/payments/${paymentId}`),
   confirmPayment: (paymentId: string) => api.put(`/payments/${paymentId}/confirm`),
   declinePayment: (paymentId: string, reason: string) => api.put(`/payments/${paymentId}/decline`, { reason }),
 };

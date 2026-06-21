@@ -336,4 +336,20 @@ router.delete("/sessions/:sessionId", async (req, res: Response, next: NextFunct
   }
 });
 
+// ── Delete Payment (permanent) ─────────────────────────────────
+// Removes a single payment record and clears it from its session reference.
+router.delete("/payments/:paymentId", async (req, res: Response, next: NextFunction) => {
+  try {
+    const payment = await Payment.findById(req.params.paymentId);
+    if (!payment) throw createError("Payment not found.", 404);
+
+    await Session.updateMany({ paymentId: payment._id }, { $unset: { paymentId: "" } });
+    await Payment.findByIdAndDelete(payment._id);
+
+    res.json({ success: true, message: "Payment deleted." });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

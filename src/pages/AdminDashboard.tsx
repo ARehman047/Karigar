@@ -239,6 +239,17 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleDeletePayment = async (paymentId: string) => {
+    if (!window.confirm("Delete this payment record permanently? This cannot be undone.")) return;
+    try {
+      await adminApi.deletePayment(paymentId);
+      setPayments((prev) => prev.filter((p) => p.id !== paymentId));
+      toast({ title: "Payment Deleted", description: "The payment record has been removed.", variant: "destructive" });
+    } catch (err) {
+      toast({ title: "Delete failed", description: (err as Error).message, variant: "destructive" });
+    }
+  };
+
   const filteredSessions = sessions.filter(
     (s) =>
       sessionSearch === "" ||
@@ -446,26 +457,32 @@ const AdminDashboard = () => {
                             {new Date(payment.createdAt).toLocaleDateString()}
                           </td>
                           <td className="py-3">
-                            {payment.status === "PENDING" && payment.studentPaidAt && (
-                              <div className="flex flex-wrap gap-1.5">
-                                <Button size="sm" variant="outline" className="text-xs gap-1"
-                                  disabled={busyId === payment.id}
-                                  onClick={() => handleViewReceipt(payment.id)}>
-                                  <FileText className="h-3.5 w-3.5" />Receipt
-                                </Button>
-                                <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white text-xs"
-                                  onClick={() => handleConfirmPayment(payment.id)}>
-                                  Confirm
-                                </Button>
-                                <Button size="sm" variant="outline" className="text-xs text-red-600 border-red-200 hover:bg-red-50"
-                                  onClick={() => { setPayDeclineId(payment.id); setPayDeclineReason(""); }}>
-                                  Decline
-                                </Button>
-                              </div>
-                            )}
-                            {payment.status === "PENDING" && !payment.studentPaidAt && (
-                              <span className="text-xs text-muted-foreground">Awaiting payment</span>
-                            )}
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              {payment.status === "PENDING" && payment.studentPaidAt && (
+                                <>
+                                  <Button size="sm" variant="outline" className="text-xs gap-1"
+                                    disabled={busyId === payment.id}
+                                    onClick={() => handleViewReceipt(payment.id)}>
+                                    <FileText className="h-3.5 w-3.5" />Receipt
+                                  </Button>
+                                  <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white text-xs"
+                                    onClick={() => handleConfirmPayment(payment.id)}>
+                                    Confirm
+                                  </Button>
+                                  <Button size="sm" variant="outline" className="text-xs text-red-600 border-red-200 hover:bg-red-50"
+                                    onClick={() => { setPayDeclineId(payment.id); setPayDeclineReason(""); }}>
+                                    Decline
+                                  </Button>
+                                </>
+                              )}
+                              {payment.status === "PENDING" && !payment.studentPaidAt && (
+                                <span className="text-xs text-muted-foreground">Awaiting payment</span>
+                              )}
+                              <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-red-500 hover:text-red-700" title="Delete payment"
+                                onClick={() => handleDeletePayment(payment.id)}>
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </Button>
+                            </div>
                           </td>
                         </tr>
                       ))}
