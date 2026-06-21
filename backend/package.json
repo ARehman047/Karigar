@@ -11,7 +11,8 @@
     "seed:sessions": "ts-node src/utils/seedSessions.ts",
     "add:sessions": "ts-node src/utils/addSessions.ts",
     "clear:sessions": "ts-node src/utils/clearSessions.ts",
-    "add:students": "ts-node src/utils/addStudents.ts"
+    "add:students": "ts-node src/utils/addStudents.ts",
+    "add:april": "ts-node src/utils/addAprilSessions.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
