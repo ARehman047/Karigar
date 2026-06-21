@@ -87,7 +87,7 @@ export const AdminPayoutsTab = () => {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm whitespace-nowrap">
               <thead>
                 <tr className="border-b border-border text-muted-foreground text-left">
                   <th className="pb-3 pr-4">Student</th>
@@ -212,7 +212,7 @@ export const AdminPayoutsTab = () => {
           <p className="py-8 text-center text-muted-foreground">No payouts made yet.</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm whitespace-nowrap">
               <thead>
                 <tr className="border-b border-border text-muted-foreground text-left">
                   <th className="pb-3 pr-4">Mentor</th>

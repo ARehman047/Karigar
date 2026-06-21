@@ -346,7 +346,7 @@ const AdminDashboard = () => {
 
         {/* Management Tabs */}
         <Tabs defaultValue="approvals" className="space-y-4">
-          <TabsList className="grid grid-cols-3 sm:grid-cols-7 w-full max-w-4xl">
+          <TabsList className="grid grid-cols-3 sm:grid-cols-7 w-full max-w-4xl h-auto gap-1">
             <TabsTrigger value="approvals">
               Approvals{pending.length > 0 && <span className="ml-1.5 bg-blue-600 text-white text-xs rounded-full px-1.5 py-0.5">{pending.length}</span>}
             </TabsTrigger>
@@ -415,7 +415,7 @@ const AdminDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <table className="w-full text-sm whitespace-nowrap">
                     <thead>
                       <tr className="border-b border-border text-muted-foreground text-left">
                         <th className="pb-3 pr-4">Student</th>
@@ -500,7 +500,7 @@ const AdminDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <table className="w-full text-sm whitespace-nowrap">
                     <thead>
                       <tr className="border-b border-border text-muted-foreground text-left">
                         <th className="pb-3 pr-4">Student</th>
@@ -566,7 +566,7 @@ const AdminDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <table className="w-full text-sm whitespace-nowrap">
                     <thead>
                       <tr className="border-b border-border text-muted-foreground text-left">
                         <th className="pb-3 pr-4">Name</th>
@@ -639,7 +639,7 @@ const AdminDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <table className="w-full text-sm whitespace-nowrap">
                     <thead>
                       <tr className="border-b border-border text-muted-foreground text-left">
                         <th className="pb-3 pr-4">Name</th>
