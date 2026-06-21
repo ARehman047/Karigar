@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Canvas - Warm cream background with subtle burgundy tint */
+    --background: 345 35% 97%;
+    --foreground: 343 80% 10%;
+
+    /* Cards - Elevated surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 343 80% 10%;
+
+    /* Popover surfaces */
+    --popover: 0 0% 100%;
+    --popover-foreground: 343 80% 10%;
+
+    /* Primary - Deep Burgundy for authority and trust */
+    --primary: 343 68% 22%;
+    --primary-foreground: 345 35% 97%;
+
+    /* Action - Medium Burgundy for CTAs and progress */
+    --action: 343 65% 42%;
+    --action-foreground: 0 0% 100%;
+
+    /* Secondary - Soft supporting color */
+    --secondary: 345 20% 90%;
+    --secondary-foreground: 343 80% 10%;
+
+    /* Muted - De-emphasized content */
+    --muted: 345 20% 93%;
+    --muted-foreground: 345 20% 45%;
+
+    /* Accent - Highlights and active states */
+    --accent: 345 30% 88%;
+    --accent-foreground: 343 80% 10%;
+
+    /* Success feedback */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning feedback */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Destructive - Error states */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and inputs */
+    --border: 345 20% 87%;
+    --input: 345 20% 87%;
+    --ring: 343 68% 22%;
+
+    /* Border radius for premium feel */
+    --radius: 0.75rem;
+
+    /* Sidebar colors */
+    --sidebar-background: 343 68% 22%;
+    --sidebar-foreground: 345 35% 97%;
+    --sidebar-primary: 343 65% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 343 55% 28%;
+    --sidebar-accent-foreground: 345 35% 97%;
+    --sidebar-border: 343 55% 28%;
+    --sidebar-ring: 343 65% 50%;
+  }
+
+  .dark {
+    --background: 343 60% 6%;
+    --foreground: 345 35% 95%;
+
+    --card: 343 50% 9%;
+    --card-foreground: 345 35% 95%;
+
+    --popover: 343 50% 9%;
+    --popover-foreground: 345 35% 95%;
+
+    --primary: 345 35% 95%;
+    --primary-foreground: 343 80% 10%;
+
+    --action: 343 65% 55%;
+    --action-foreground: 0 0% 100%;
+
+    --secondary: 343 40% 15%;
+    --secondary-foreground: 345 35% 95%;
+
+    --muted: 343 40% 15%;
+    --muted-foreground: 345 20% 60%;
+
+    --accent: 343 40% 20%;
+    --accent-foreground: 345 35% 95%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 345 35% 95%;
+
+    --border: 343 40% 20%;
+    --input: 343 40% 20%;
+    --ring: 345 35% 95%;
+
+    --sidebar-background: 343 60% 6%;
+    --sidebar-foreground: 345 35% 95%;
+    --sidebar-primary: 343 65% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 343 40% 15%;
+    --sidebar-accent-foreground: 345 35% 95%;
+    --sidebar-border: 343 40% 15%;
+    --sidebar-ring: 343 65% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom animations for auth pages */
+@layer utilities {
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 3s ease infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+}

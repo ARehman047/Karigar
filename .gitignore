@@ -1,0 +1,41 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Plaintext test credentials – NEVER commit (contains real passwords)
+TEST_CREDENTIALS.md
+
+# Private keys (JaaS / Jitsi as a Service) – NEVER commit
+*.pem
+*.pk
+backend/jaas-private.pem
+
+# Environment files – NEVER commit these (contain secrets)
+.env
+.env.local
+.env.production
+.env.development
+backend/.env
+backend/.env.local
+backend/.env.production
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
