@@ -14,7 +14,9 @@ interface EmailOptions {
   attachments?: EmailAttachment[];
 }
 
-const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:8080";
+// CLIENT_URL may be a comma-separated list (used for CORS); email links need a
+// single base URL, so take the first origin (e.g. https://karigarpk.com).
+const CLIENT_URL = (process.env.CLIENT_URL || "http://localhost:8080").split(",")[0].trim().replace(/\/$/, "");
 const SUPPORT_EMAIL = process.env.ADMIN_EMAIL || "karigarcareers@gmail.com";
 
 let cachedTransporter: nodemailer.Transporter | null = null;

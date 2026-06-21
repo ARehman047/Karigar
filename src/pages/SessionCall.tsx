@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
@@ -9,8 +9,18 @@ import { RatingDialog } from "@/components/session/RatingDialog";
 import { cn } from "@/lib/utils";
 import {
   Loader2, Video, VideoOff, Mic, MicOff, MonitorUp, MessageSquare,
-  LayoutGrid, PhoneOff, GraduationCap,
+  LayoutGrid, PhoneOff, GraduationCap, Paperclip, Download, X, FileText,
 } from "lucide-react";
+import type { SharedFileMeta } from "@/lib/services";
+
+const formatBytes = (b: number): string => {
+  if (!b) return "";
+  if (b < 1024) return `${b} B`;
+  if (b < 1024 * 1024) return `${(b / 1024).toFixed(0)} KB`;
+  return `${(b / 1024 / 1024).toFixed(1)} MB`;
+};
+// Kept under Vercel's ~4.5 MB serverless request-body limit (base64 inflates ~33%).
+const MAX_UPLOAD_BYTES = 3 * 1024 * 1024;
 
 interface CallConfig {
   provider: string;
@@ -88,6 +98,12 @@ const SessionCall = () => {
   const [chatOpen, setChatOpen] = useState(false);
   const [unread, setUnread] = useState(0);
   const [seconds, setSeconds] = useState(0);
+
+  // Document sharing
+  const [filesOpen, setFilesOpen] = useState(false);
+  const [files, setFiles] = useState<SharedFileMeta[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -223,6 +239,27 @@ const SessionCall = () => {
   }, [session, callConfig]);
 
   const cmd = (c: string) => apiRef.current?.executeCommand(c);
+
+  // Screen sharing needs the browser's getDisplayMedia API. Mobile browsers
+  // generally don't support it (iOS Safari has it disabled entirely), so the
+  // button would silently do nothing — detect and explain instead.
+  const canScreenShare =
+    typeof navigator !== "undefined" &&
+    !!navigator.mediaDevices &&
+    typeof navigator.mediaDevices.getDisplayMedia === "function";
+  const toggleScreenShare = () => {
+    if (!apiRef.current) return;
+    if (!canScreenShare) {
+      toast({
+        title: "Screen sharing isn't available here",
+        description:
+          "This device or browser can't share its screen — phones usually can't (iOS blocks it entirely). To present your screen, use Chrome on Android or join from a laptop. You can still share a file with the “Files” button.",
+        variant: "destructive",
+      });
+      return;
+    }
+    apiRef.current.executeCommand("toggleShareScreen");
+  };
   // For mic/cam: flip the UI instantly (optimistic), fire the toggle, then
   // re-read Jitsi's real state so the button reflects what ACTUALLY happened.
   const toggleAudio = () => {
@@ -253,6 +290,76 @@ const SessionCall = () => {
     apiRef.current.executeCommand("toggleVideo");
     setTimeout(() => syncMediaRef.current?.(), 400);
   };
+  // ── Document sharing ──────────────────────────────────────────
+  const refreshFiles = useCallback(() => {
+    if (!sessionId) return;
+    sessionApi.listFiles(sessionId).then(setFiles).catch(() => {});
+  }, [sessionId]);
+
+  // Load the file list once joined, and keep it fresh while the panel is open.
+  useEffect(() => {
+    if (joined) refreshFiles();
+  }, [joined, refreshFiles]);
+  useEffect(() => {
+    if (!filesOpen) return;
+    refreshFiles();
+    const t = setInterval(refreshFiles, 5000);
+    return () => clearInterval(t);
+  }, [filesOpen, refreshFiles]);
+
+  const handleFileChosen = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // allow re-selecting the same file later
+    if (!file || !sessionId) return;
+    if (file.size > MAX_UPLOAD_BYTES) {
+      toast({ title: "File too large", description: "Please share a file under 3 MB.", variant: "destructive" });
+      return;
+    }
+    setUploading(true);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        await sessionApi.uploadFile(sessionId, {
+          name: file.name,
+          mimeType: file.type || "application/octet-stream",
+          size: file.size,
+          data: reader.result as string,
+        });
+        refreshFiles();
+        // Nudge the other participant via the in-meeting chat.
+        apiRef.current?.executeCommand(
+          "sendChatMessage",
+          `📎 Shared a document: ${file.name} — open the Files panel to download.`
+        );
+        toast({ title: "File shared", description: `${file.name} is now available to download.` });
+      } catch (err) {
+        toast({ title: "Upload failed", description: (err as Error).message, variant: "destructive" });
+      } finally {
+        setUploading(false);
+      }
+    };
+    reader.onerror = () => {
+      setUploading(false);
+      toast({ title: "Couldn't read that file", variant: "destructive" });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDownload = async (f: SharedFileMeta) => {
+    if (!sessionId) return;
+    try {
+      const full = await sessionApi.getFile(sessionId, f.id);
+      const a = document.createElement("a");
+      a.href = full.data;
+      a.download = full.name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (err) {
+      toast({ title: "Download failed", description: (err as Error).message, variant: "destructive" });
+    }
+  };
+
   const duration = `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
 
   if (isLoading) {
@@ -326,6 +433,51 @@ const SessionCall = () => {
             <p className="text-zinc-400 text-sm">Connecting you to {otherParty}…</p>
           </div>
         )}
+
+        {/* Shared documents panel */}
+        {filesOpen && (
+          <div className="absolute inset-y-0 right-0 w-full sm:w-80 bg-zinc-900/95 backdrop-blur-md border-l border-white/10 z-20 flex flex-col">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+              <div className="flex items-center gap-2 text-white font-medium">
+                <FileText className="h-4 w-4 text-primary" /> Shared files
+              </div>
+              <button onClick={() => setFilesOpen(false)} className="text-zinc-400 hover:text-white">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-3 space-y-2">
+              {files.length === 0 && (
+                <p className="text-zinc-500 text-sm text-center mt-8">No documents shared yet.</p>
+              )}
+              {files.map((f) => (
+                <div key={f.id} className="flex items-center gap-3 rounded-lg bg-white/5 p-3">
+                  <FileText className="h-5 w-5 text-primary shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-white text-sm truncate">{f.name}</p>
+                    <p className="text-zinc-400 text-xs truncate">
+                      {f.uploaderName || "Someone"}{f.size ? ` · ${formatBytes(f.size)}` : ""}
+                    </p>
+                  </div>
+                  <button onClick={() => handleDownload(f)} title="Download" className="text-zinc-300 hover:text-white shrink-0">
+                    <Download className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="p-3 border-t border-white/10">
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                className="w-full flex items-center justify-center gap-2 rounded-lg bg-primary text-primary-foreground py-2.5 text-sm font-medium hover:bg-primary/90 disabled:opacity-60"
+              >
+                {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Paperclip className="h-4 w-4" />}
+                {uploading ? "Uploading…" : "Share a document"}
+              </button>
+              <p className="text-zinc-500 text-[11px] text-center mt-1.5">Up to 3 MB · visible to both of you</p>
+            </div>
+          </div>
+        )}
+        <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChosen} />
       </div>
 
       {/* Custom themed control bar */}
@@ -346,8 +498,10 @@ const SessionCall = () => {
             icon={camOn && camAvailable ? <Video className="h-5 w-5" /> : <VideoOff className="h-5 w-5" />}
           />
           <Control
-            onClick={() => cmd("toggleShareScreen")}
+            onClick={toggleScreenShare}
+            dim={!canScreenShare}
             label="Share"
+            title={canScreenShare ? "Share your screen" : "Screen sharing isn't supported on this device"}
             variant={sharing ? "action" : "glass"}
             icon={<MonitorUp className="h-5 w-5" />}
           />
@@ -357,6 +511,14 @@ const SessionCall = () => {
             variant={chatOpen ? "primary" : "glass"}
             badge={unread}
             icon={<MessageSquare className="h-5 w-5" />}
+          />
+          <Control
+            onClick={() => setFilesOpen((v) => !v)}
+            label="Files"
+            title="Share documents"
+            variant={filesOpen ? "primary" : "glass"}
+            badge={files.length}
+            icon={<Paperclip className="h-5 w-5" />}
           />
           <Control
             onClick={() => cmd("toggleTileView")}

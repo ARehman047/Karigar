@@ -11,6 +11,9 @@ import {
   getCallConfig,
   cancelOwnSession,
   getSessionReview,
+  uploadSessionFile,
+  listSessionFiles,
+  getSessionFile,
 } from "../controllers/session.controller";
 
 const router = Router();
@@ -27,5 +30,10 @@ router.put("/:sessionId/reschedule", authorize("mentor"), requestReschedule);
 router.put("/:sessionId/reschedule-response", authorize("student"), respondReschedule);
 router.post("/:sessionId/review", authorize("student"), submitReview);
 router.delete("/:sessionId", authorize("student"), cancelOwnSession);
+
+// In-call document sharing (either participant)
+router.post("/:sessionId/files", uploadSessionFile);
+router.get("/:sessionId/files", listSessionFiles);
+router.get("/:sessionId/files/:fileId", getSessionFile);
 
 export default router;

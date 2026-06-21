@@ -467,7 +467,38 @@ export const sessionApi = {
     );
     return res.data;
   },
+  // In-call document sharing
+  listFiles: async (id: string): Promise<SharedFileMeta[]> => {
+    const res = await api.get<SharedFileMeta[]>(`/sessions/${id}/files`);
+    return res.data;
+  },
+  uploadFile: async (
+    id: string,
+    file: { name: string; mimeType: string; size: number; data: string }
+  ): Promise<SharedFileMeta> => {
+    const res = await api.post<SharedFileMeta>(`/sessions/${id}/files`, file);
+    return res.data;
+  },
+  getFile: async (
+    id: string,
+    fileId: string
+  ): Promise<{ name: string; mimeType: string; size: number; data: string }> => {
+    const res = await api.get<{ name: string; mimeType: string; size: number; data: string }>(
+      `/sessions/${id}/files/${fileId}`
+    );
+    return res.data;
+  },
 };
+
+export interface SharedFileMeta {
+  id: string;
+  name: string;
+  mimeType: string;
+  size: number;
+  uploaderId: string;
+  uploaderName: string;
+  createdAt: string;
+}
 
 export interface BankAccount {
   bankName: string;

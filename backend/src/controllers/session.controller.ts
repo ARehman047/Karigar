@@ -8,6 +8,7 @@ import Payment from "../models/Payment.model";
 import Notification from "../models/Notification.model";
 import Mentor from "../models/Mentor.model";
 import Review from "../models/Review.model";
+import SharedFile from "../models/SharedFile.model";
 import { AuthRequest } from "../middlewares/auth.middleware";
 import { createError } from "../middlewares/errorHandler";
 import { sendEmail } from "../utils/email";
@@ -583,6 +584,75 @@ export const respondReschedule = async (req: AuthRequest, res: Response, next: N
     }).catch(() => {});
 
     res.json({ success: true, data: session });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ── In-call document / file sharing ───────────────────────────
+// Either participant (or admin) can upload a document tied to the session; the
+// other party lists + downloads it. Bytes are stored as a base64 data URL.
+const MAX_FILE_BYTES = 3 * 1024 * 1024; // ~3 MB (stays under Vercel's serverless request-body limit)
+
+const ensureParticipant = async (sessionId: string, user: { id: string; role: string }) => {
+  const session = await Session.findById(sessionId).select("studentId mentorId");
+  if (!session) throw createError("Session not found.", 404);
+  if (user.role !== "admin" && idOf(session.studentId) !== user.id && idOf(session.mentorId) !== user.id) {
+    throw createError("Forbidden", 403);
+  }
+  return session;
+};
+
+const fileMeta = (f: InstanceType<typeof SharedFile>) => ({
+  id: f._id,
+  name: f.name,
+  mimeType: f.mimeType,
+  size: f.size,
+  uploaderId: f.uploaderId,
+  uploaderName: f.uploaderName,
+  createdAt: f.get("createdAt"),
+});
+
+export const uploadSessionFile = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    await ensureParticipant(req.params.sessionId, req.user!);
+    const { name, mimeType, size, data } = req.body as { name?: string; mimeType?: string; size?: number; data?: string };
+    if (!name || !data) throw createError("A file name and contents are required.", 400);
+    if (typeof data !== "string" || !data.startsWith("data:")) throw createError("Invalid file data.", 400);
+    if (Number(size) > MAX_FILE_BYTES) throw createError("File is too large (max 3 MB).", 400);
+
+    const me = await User.findById(req.user!.id).select("name");
+    const file = await SharedFile.create({
+      sessionId: req.params.sessionId,
+      uploaderId: req.user!.id,
+      uploaderName: me?.name || "",
+      name: String(name).slice(0, 200),
+      mimeType: mimeType || "application/octet-stream",
+      size: Number(size) || 0,
+      data,
+    });
+    res.status(201).json({ success: true, data: fileMeta(file) });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const listSessionFiles = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    await ensureParticipant(req.params.sessionId, req.user!);
+    const files = await SharedFile.find({ sessionId: req.params.sessionId }).sort({ createdAt: 1 });
+    res.json({ success: true, data: files.map(fileMeta) });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getSessionFile = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    await ensureParticipant(req.params.sessionId, req.user!);
+    const file = await SharedFile.findOne({ _id: req.params.fileId, sessionId: req.params.sessionId }).select("+data");
+    if (!file) throw createError("File not found.", 404);
+    res.json({ success: true, data: { id: file._id, name: file.name, mimeType: file.mimeType, size: file.size, data: file.data } });
   } catch (error) {
     next(error);
   }
