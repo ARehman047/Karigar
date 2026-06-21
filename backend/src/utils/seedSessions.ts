@@ -48,58 +48,26 @@ interface SeedSession {
 // EDIT THIS LIST — each row becomes one completed, reviewed session.
 // ─────────────────────────────────────────────────────────────────────────────
 const SESSIONS: SeedSession[] = [
-  { studentEmail: "areba.ali@gmail.com", mentorEmail: "amal.zafar@gmail.com", packageName: "CV/Resume Building", date: "2026-06-17", time: "16:00-17:00", topic: "CV Building", rating: 5, review: "Good teacher." },
-  { studentEmail: "aleen.zainab@gmail.com", mentorEmail: "amal.zafar@gmail.com", packageName: "Basic Career Consultation", date: "2026-06-13", time: "20:00-21:00", topic: "Basic Consultancy", rating: 5, review: "Amal is an excellent mentor." },
+  // ─────────────────────────── June 2026 ───────────────────────────
   { studentEmail: "muhammad.ali@gmail.com", mentorEmail: "amal.zafar@gmail.com", packageName: "Basic Career Consultation", date: "2026-06-20", time: "18:00-19:00", topic: "Data Science", rating: 5, review: "Gave me an excellent overview of data science career paths." },
+  { studentEmail: "zainab.mansoor@gmail.com", mentorEmail: "afroze.zehra@gmail.com", packageName: "Academic Mentorship", date: "2026-06-18", time: "11:00-12:00", topic: "University application essays", rating: 5, review: "My personal statement is so much stronger now. Afroze is a fantastic mentor." },
+  { studentEmail: "areba.ali@gmail.com", mentorEmail: "amal.zafar@gmail.com", packageName: " CV/Resume Building", date: "2026-06-17", time: "1:00-2:00", topic: "Computer Science", rating: 5, review: "Good quality mentorship." },
+  { studentEmail: "aleen.zainab@gmail.com", mentorEmail: "amal.zafar@gmail.com", packageName: "Basic Career Consultation", date: "2026-06-13", time: "20:00-21:00", topic: "Basic Consultancy", rating: 5, review: "Amal is an excellent mentor." },
+  { studentEmail: "abdul.rehman@gmail.com", mentorEmail: "syed.muhammad@gmail.com", packageName: "Basic Career Consultation", date: "2026-06-12", time: "1:00-2:00", topic: "Computer Science", rating: 5, review: "Good quality mentorship." },
   { studentEmail: "haya.mirza@gmail.com", mentorEmail: "hira.jamil@gmail.com", packageName: "Basic Career Consultation", date: "2026-06-10", time: "15:00-16:00", topic: "Medical Careers", rating: 4, review: "Very informative session." },
+  { studentEmail: "haya.amir@gmail.com", mentorEmail: "afnan.sukhera@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-06-05", time: "14:00-15:00", topic: "Entrepreneurial Strategies", rating: 5, review: "Excellent guidance on entrepreneurial strategies." },
   { studentEmail: "aleen.zainab@gmail.com", mentorEmail: "rabia.awan@gmail.com", packageName: "Basic Career Consultation", date: "2026-06-04", time: "10:00-11:00", topic: "Career Planning", rating: 5, review: "Rabia gave me a realistic study schedule and great resources. Feeling much more confident." },
   { studentEmail: "muhammad.ali@gmail.com", mentorEmail: "syed.muhammad@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-06-03", time: "17:00-18:00", topic: "Finance Industry Insights", rating: 4, review: "Solid, honest advice about the finance industry. Very helpful." },
-  { studentEmail: "haya.amir@gmail.com", mentorEmail: "afnan.sukhera@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-06-05", time: "14:00-15:00", topic: "Entrepreneurial Strategies", rating: 5, review: "Excellent guidance on entrepreneurial strategies." },
-  { studentEmail: "haya.mirza@gmail.com", mentorEmail: "abbas@gmail.com", packageName: "Academic Mentorship", date: "2026-06-07", time: "15:00-16:00", topic: "Academic Planning", rating: 4, review: "Good session." },
-  { studentEmail: "zainab.mansoor@gmail.com", mentorEmail: "afroze.zehra@gmail.com", packageName: "Academic Mentorship", date: "2026-06-18", time: "11:00-12:00", topic: "University application essays", rating: 5, review: "My personal statement is so much stronger now. Afroze is a fantastic mentor." },
+
+  // ─────────────────────────── May 2026 ────────────────────────────
   { studentEmail: "zainab.mansoor@gmail.com", mentorEmail: "hira.jamil@gmail.com", packageName: "Academic Mentorship", date: "2026-05-18", time: "11:00-12:00", topic: "Medical ", rating: 5, review: "Good Session" },
-  { studentEmail: "abdul.rehman@gmail.com", mentorEmail: "amal.zafar@gmail.com", packageName: "Academic Mentorship", date: "2026-05-12", time: "1:00-2:00", topic: "Computer Science", rating: 5, review: "Good quality mentorship." },
-  { studentEmail: "anushay.babar@gmail.com", mentorEmail: "afnan.sukhera@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-06", time: "3:00-4:00", topic: "Healthcare industry", rating: 5, review: "Good" },
   { studentEmail: "haleema.ahmad@gmail.com", mentorEmail: "zeeshan.farooq@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-17", time: "11:30-12:30", topic: "Career Planning", rating: 5, review: "Good." },
-  { studentEmail: "fahad.khan@gmail.com", mentorEmail: "faiza.iqbal@gmail.com", packageName: "Basic Career Consultation", date: "2026-05-01", time: "7:30-8:30", topic: "Career Planning", rating: 5, review: "Good Advice." },
-  { studentEmail: "haya.mirza@gmail.com", mentorEmail: "rabia.awan@gmail.com", packageName: "Basic Career Consultation", date: "2026-05-26", time: "2:00-3:00", topic: "Consultation", rating: 5, review: "Good." },
   { studentEmail: "fahad.khan@gmail.com", mentorEmail: "sara.shamim@gmail.com", packageName: "Basic Career Consultation", date: "2026-05-14", time: "10:00-11:00", topic: "Medical ", rating: 5, review: "Good Session" },
-  { studentEmail: "abdul.rehman@gmail.com", mentorEmail: "syed.muhammad@gmail.com", packageName: "Basic Career Consultation", date: "2026-06-12", time: "1:00-2:00", topic: "Computer Science", rating: 5, review: "Good quality mentorship." },
-  { studentEmail: "haleema.ahmad@gmail.com", mentorEmail: "zeeshan.farooq@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-09", time: "5:00-6:00", topic: "Healthcare industry", rating: 5, review: "Good" },
-  { studentEmail: "haleema.ahmad@gmail.com", mentorEmail: "rabia.awan@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-17", time: "11:30-12:30", topic: "Career Planning", rating: 5, review: "Good." },
-{ studentEmail: "ahsan.raza@gmail.com", mentorEmail: "afroze.zehra@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-17", time: "11:30-12:30", topic: "Career Planning", rating: 5, review: "Good." },
-{ studentEmail: "aleen.zainab@gmail.com", mentorEmail: "amal.zafar@gmail.com", packageName: " Basic Career Consultation", date: "2026-06-13", time: "5:00-6:00", topic: "Healthcare industry", rating: 5, review: "Good" },
-{ studentEmail: "aleen.zainab@gmail.com", mentorEmail: "rabia.awan@gmail.com", packageName: " Basic Career Consultation", date: "2026-06-04", time: "5:00-6:00", topic: "Healthcare industry", rating: 5, review: "Good" },
-
-{ studentEmail: "amna.ahmad@gmail.com", mentorEmail: "zeeshan.farooq@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-09", time: "5:00-6:00", topic: "Healthcare industry", rating: 5, review: "Good" },
-
-{ studentEmail: "anushay.babar@gmail.com", mentorEmail: "afnan.sukhera@gmail.com", packageName: " Entrepreneurial Coaching Package", date: "2026-05-06", time: "1:00-2:00", topic: "Computer Science", rating: 5, review: "Good quality mentorship." },
-{ studentEmail: "areba.ali@gmail.com", mentorEmail: "amal.zafar@gmail.com", packageName: " CV/Resume Building", date: "2026-06-17", time: "1:00-2:00", topic: "Computer Science", rating: 5, review: "Good quality mentorship." },
-{ studentEmail: "bilal.hassan@gmail.com", mentorEmail: "syed.muhammad@gmail.com", packageName: "Basic Career Consultation", date: "2026-06-12", time: "1:00-2:00", topic: "Computer Science", rating: 5, review: "Good quality mentorship." },
-{ studentEmail: "haleema.ahmad@gmail.com", mentorEmail: "zeeshan.farooq@gmail.com", packageName: " Entrepreneurial Coaching Package", date: "2026-05-17", time: "1:00-2:00", topic: "Medical ", rating: 5, review: "Good Session" },
-{ studentEmail: "haleema.ahmad@gmail.com", mentorEmail: "rabia.awan@gmail.com", packageName: " Entrepreneurial Coaching Package", date: "2026-05-17", time: "10:00-11:00", topic: "Medical ", rating: 5, review: "Good Session" },
-{ studentEmail: "haleema.ahmad@gmail.com", mentorEmail: "zeeshan.farooq@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-09", time: "10:00-11:00", topic: "Medical ", rating: 5, review: "Good Session" },
-
-{ studentEmail: "haya.amir@gmail.com", mentorEmail: "afnan.sukhera@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-06-05", time: "10:00-11:00", topic: "Medical ", rating: 5, review: "Good Session" },
-{ studentEmail: "haya.mirza@gmail.com", mentorEmail: "abbas@gmail.com", packageName: "Academic Mentorship", date: "2026-06-07", time: "10:00-11:00", topic: "Medical ", rating: 5, review: "Good Session" },
-{ studentEmail: "haya.mirza@gmail.com", mentorEmail: "hira.jamil@gmail.com", packageName: "Academic Mentorship", date: "2026-06-10", time: "10:00-11:00", topic: "Medical ", rating: 5, review: "Good Session" },
-{ studentEmail: "haya.mirza@gmail.com", mentorEmail: "rabia.awan@gmail.com", packageName: "Basic Career Consultation", date: "2026-05-26", time: "10:00-11:00", topic: "Medical ", rating: 5, review: "Good Session" },
-
-{ studentEmail: "hira.saleem@gmail.com", mentorEmail: "afroze.zehra@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-17", time: "1:30-2:30", topic: "Career Planning", rating: 5, review: "Good." },
-{ studentEmail: "kashan.javed@gmail.com", mentorEmail: "afroze.zehra@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-17", time: "11:30-12:30", topic: "Career Planning", rating: 5, review: "Good." },
-{ studentEmail: "maham.tariq@gmail.com", mentorEmail: "afroze.zehra@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-17", time: "3:00-4:00", topic: "Career Planning", rating: 5, review: "Good." },
-{ studentEmail: "malaika.ahmad@gmail.com", mentorEmail: "syed.muhammad@gmail.com", packageName: "Basic Career Consultation", date: "2026-06-12", time: "1:00-2:00", topic: "Computer Science", rating: 5, review: "Good quality mentorship."},
-{ studentEmail: "muhammad.ali@gmail.com", mentorEmail: "amal.zafar@gmail.com", packageName: "Basic Career Consultation", date: "2026-06-20", time: "1:00-2:00", topic: "Computer Science", rating: 5, review: "Good quality mentorship." },
-{ studentEmail: "muhammad.ali@gmail.com", mentorEmail: "syed.muhammad@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-06-03", time: "1:00-2:00", topic: "Computer Science", rating: 5, review: "Good quality mentorship." },
-
-{ studentEmail: "saad.iqbal@gmail.com", mentorEmail: "zeeshan.farooq@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-09", time: "5:00-6:00", topic: "Healthcare industry", rating: 5, review: "Good" },
-{ studentEmail: "usman.shahid@gmail.com", mentorEmail: "zeeshan.farooq@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-09", time: "2:00-3:00", topic: "Healthcare industry", rating: 5, review: "Good" },
-{ studentEmail: "zainab.mansoor@gmail.com", mentorEmail: "hira.jamil@gmail.com", packageName: "Academic Mentorship", date: "2026-05-18", time: "5:00-6:00", topic: "Healthcare industry", rating: 5, review: "Good" },
-{ studentEmail: "zainab.mansoor@gmail.com", mentorEmail: "afroze.zehra@gmail.com", packageName: "Academic Mentorship", date: "2026-06-18", time: "5:00-6:00", topic: "Healthcare industry", rating: 5, review: "Good" },
-
-{ studentEmail: "zoya.khan@gmail.com", mentorEmail: "zeeshan.farooq@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-09", time: "12:30-1:30", topic: "Healthcare industry", rating: 5, review: "Good" },
-
+  { studentEmail: "abdul.rehman@gmail.com", mentorEmail: "amal.zafar@gmail.com", packageName: "Academic Mentorship", date: "2026-05-12", time: "1:00-2:00", topic: "Computer Science", rating: 5, review: "Good quality mentorship." },
+  { studentEmail: "amna.ahmad@gmail.com", mentorEmail: "zeeshan.farooq@gmail.com", packageName: "Entrepreneurial Coaching Package", date: "2026-05-09", time: "5:00-6:00", topic: "Healthcare industry", rating: 5, review: "Good" },
+  { studentEmail: "fahad.khan@gmail.com", mentorEmail: "faiza.iqbal@gmail.com", packageName: "Basic Career Consultation", date: "2026-05-01", time: "7:30-8:30", topic: "Career Planning", rating: 5, review: "Good Advice." },
 ];
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 const isValidDate = (d: string): boolean => /^\d{4}-\d{2}-\d{2}$/.test(d) && !Number.isNaN(Date.parse(d));

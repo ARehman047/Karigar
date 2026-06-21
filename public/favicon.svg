@@ -1,0 +1,9 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Karigar">
+  <rect width="512" height="512" rx="112" fill="#5E1228"/>
+  <g fill="#ffffff">
+    <path d="M256 148 L424 214 256 280 88 214 Z"/>
+    <path d="M168 242 L168 302 C168 337 207 360 256 360 C305 360 344 337 344 302 L344 242 L256 276 Z"/>
+    <path d="M408 208 V316" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="408" cy="332" r="16"/>
+  </g>
+</svg>

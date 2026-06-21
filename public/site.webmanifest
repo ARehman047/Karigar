@@ -1,0 +1,14 @@
+{
+  "name": "Karigar",
+  "short_name": "Karigar",
+  "description": "Connect with academic and industry mentors to bridge theory and practice in your career journey.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#5E1228",
+  "theme_color": "#5E1228",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any maskable" }
+  ]
+}
